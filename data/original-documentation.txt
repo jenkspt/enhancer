@@ -1,0 +1,584 @@
+The Color FERET Database
+
+
+1. Contact
+
+Stan Janet
+National Institute of Standards and Technology
+colorferet@nist.gov
+
+
+2. Introduction
+
+This database contains a total of 11338 facial images.
+They were collected by photographing 994 subjects at various angles,
+over the course of 15 sessions between 1993 and 1996. The Color FERET
+website is:
+	http://www.nist.gov/humanid/colorferet
+
+This database is largely a color version of the original Facial Recognition
+Technology (FERET) Database:
+	http://www.nist.gov/humanid/feret/
+which was released in 20001 and consisted of 14051 grayscale images.
+In this documentation, the original FERET Database will be referred to as
+the Gray FERET Database.
+
+The database was created to develop, test and evaluate face recognition
+algorithms.  To advance the state-of-the-art in face recognition, the
+Color FERET Database is made available to researchers in face recognition
+on a case-by-case basis only. All requests for the Color FERET Database
+must be submitted in writing, along with a signed copy of a release
+agreement, available at:
+	http://www.nist.gov/humanid/colorferet/release_agreement.pdf
+
+The images in the Color FERET Database are 512 by 768 pixels, and the
+files are in PPM-format:
+	http://astronomy.swin.edu.au/~pbourke/dataformats/ppm/
+Many image viewers can read PPM-format files. The PBMPLUS toolkit contains
+software to convert PPM files to various other image formats, and it can be
+downloaded free from:
+	http://www.acme.com/software/pbmplus/
+
+To allow distribution of the database on a pair of DVD's, the PPM files
+have been compressed (losslessly) with the open source program "bzip2":
+	http://sources.redhat.com/bzip2/
+The program to decompress the files, "bunzip2," is provided for several
+platforms on the DVD's, as is the "bunzip2" source code.
+
+There are 13 different poses. (The orientation "right" means
+facing the photographer's right.)
+	fa	regular frontal image
+	fb	alternative frontal image, taken shortly after the
+			corresponding fa image
+	pl	profile left
+	hl	half left - head turned about 67.5 degrees left
+	ql	quarter left - head turned about 22.5 degrees left
+	pr	profile right
+	hr	half right - head turned about 67.5 degrees right
+	qr	quarter right - head turned about 22.5 degrees right
+	ra	random image - head turned about 45 degree left
+	rb	random image - head turned about 15 degree left
+	rc	random image - head turned about 15 degree right
+	rd	random image - head turned about 45 degree right
+	re	random image - head turned about 75 degree right
+
+Note that the rb, rc, and re angles are 5 degrees different from
+the estimated values that were used in the Gray FERET Database
+so that the angle increments would be more regular.
+
+A regular frontal image was captured for every subject at every capture
+session. In almost every case, a second frontal was also captured, and
+half- and profile- left and right images were usually captured as well.
+
+A breakdown of the images by pose is:
+	Pose Angle   Images Subjects
+	fa       0     1364      994
+	fb       0     1358      993
+	hl   +67.5     1267      917
+	hr   -67.5     1320      953
+	pl     +90     1312      960
+	pr     -90     1363      994
+	ql   +22.5      761      501
+	qr   -22.5      761      501
+	ra     +45      321      261
+	rb     +15      321      261
+	rc     -15      610      423
+	rd     -45      290      236
+	re     -75      290      236
+
+
+The film was originally processed onto Kodak PhotoCD's. The PhotoCD-
+format images on those discs were converted into PPM-format using
+the program "hpcdtoppm":
+	http://www.mit.edu/afs/athena/contrib/graphics/src/netpbm-9.25/ppm/hpcdtoppm/
+
+Since the amount of image data exceeds the capacity of a single DVD,
+the data was split between the discs. Each subject who participated in
+the collection had been given a unique five-digit ID.  The imagery (and
+ground truth files) for subject ID's through "00739" are on the first
+disc, and the others are on the second.
+
+
+3. Summary of Differences
+
+This database contains color versions of largely the same images that
+appeared in the Gray FERET Database. There are four other significant
+differences between this database and the Gray FERET Database:
+
+	1. The images' dimensions have been doubled to 512 x 768 pixels.
+
+	2. The images have not undergone lossy compression or any other
+		processing. Compression or processing artifacts are very
+		visible in many Gray FERET images when comparing them to
+		their Color FERET counterparts. For example, mapping Color
+		FERET's 00863_940307_pl.ppm to grayscale and comparing
+		directly to Gray FERET's 00863pl010_940307.pgm shows that
+		the latter is much lower quality.
+
+        3. Numerous mistakes present in the Gray FERET Database have been
+		fixed.
+
+        4. After examining the images on the PhotoCD's, 96 images that
+		were never labelled and released have been added to this
+		database. The other 11242 originally appeared in the Gray
+		FERET Database. (Actually, a small number of those are new
+		images as well, where an image was erroneously in Gray FERET
+		under multiple names, and the error was fixed by manually
+		locating the image for the misnamed filename on the PhotoCD's.)
+
+Two subsets of images from Gray FERET do not appear in Color FERET. The
+2,200 FERET images known as the b-series (200 subjects each photographed
+in 11 poses) are not present because the original PhotoCD's could not be
+located. Also, the 536 Gray FERET images that were created by manually
+altering (scaling, darkening, or retouching) other images were not re-derived
+for this database.
+
+In addition, numerous mistakes discovered in the Gray FERET Database
+have been fixed. Some of the types of mistakes were:
+        * an image appearing under multiple names
+        * a subject appearing under two different ID's
+        * two different subjects appearing under the same ID
+        * incorrect capture date
+        * illegal filename (one Gray FERET file contained a hyphen)
+The Gray FERET files affected by mistakes are detailed in the
+file 'doc/fates.out', which is documented below.
+
+The DVD's also contain "smaller" (256 x 484) and "thumbnail" (128 x 192)
+versions of each of the images, for applications that don't require the
+higher resolution. These images have also been compressed with "bzip2."
+
+There were four types of duplicates, photographs appearing under two or
+more names, that were discovered on Gray FERET and fixed in Color FERET
+by throwing out the extras. Some had the same checksum, and thus could
+be found easily. The others had different checksums and fell
+into three categories. In one, the Gray FERET TIFF-format files had
+different checksums but the pixel values of each were identical, so
+the checksums matched after they were converted to the PPM format.
+In the second category, the images were visually similar, and the fact
+that they were duplicates was ascertained because the differences
+between each and the corresponding PhotoCD color image were both so
+small.  Finally, a few were fairly different visually because one
+had been processed (e.g. darkened) -- the duplicates were usually
+found when the processed image was a close second-place to the
+unprocessed image.
+
+
+4. Meta-data
+
+The database also contains ground truth files for the subjects and the
+images, in both XML and plain text formats. This information allows
+subsets of images, such as males, females, subjects with
+glasses or beards, etc. to be used or analyzed independently.
+
+The subject and recording XML ground truth files conform to document
+type definitions (DTD's) maintained at hbase.humanid.org:
+	http://hbase.humanid.org/hbase/dtd/recording.dtd
+	http://hbase.humanid.org/hbase/dtd/subject.dtd
+To request access to the website, contact:
+	Todd Scruggs <WENDELL.T.SCRUGGS@saic.com>
+
+To decompress the images, the program "bunzip2" is required. Source
+code for "bunzip2" is provided on the DVD's. It is usually standard
+in Linux distributions, so there may be no need to compile the source
+code.
+
+Finally, the contents of the Gray FERET CD's from 1999 are included
+on the second Color FERET DVD, so that everyone with the Color FERET
+Database has access to the previous database as well.
+
+
+5. Image Naming Conventions
+
+The full-size (512 x 768) images have names such as:
+    data/images/00012/00012_930831_fb_a.ppm.bz2
+                      |      |      | |
+                      |      |      | \______ optional flag
+                      |      |      \________ FERET pose name
+                      |      \_______________ the image capture date
+                      \______________________ the subject ID
+
+The subject ID is a five-digit code that is unique for every
+person photographed. The image capture date is in year-month-day
+format. The 14 capture dates were:
+	930831
+	931230
+	940128
+	940307
+	940422
+	940519
+	940928
+	941031
+	941121
+	941201
+	941205
+	960530
+	960620
+	960627
+
+
+For any of these three conditions, the filename will contain the
+optional underscore and flag character:
+	a	subject is wearing glasses
+	b	subject changed his or her hairstyle for the
+			image and is not wearing glasses
+	c	subject changed his or her hairstyle for the
+			image and is wearing glasses
+
+The corresponding "smaller" and "thumbnail" images have names
+such as:
+	data/smaller/00012/00012_930831_fb_a.ppm.bz2
+	data/thumbnails/00012/00012_930831_fb_a.ppm.bz2
+
+
+6. Ground Truth Files
+
+a. Subjects
+
+There are plain text and XML-format files for each subject
+containing sex, race, and approximate year of birth, all surmised
+retrospectively. For example, information about subject '00012'
+is in:
+	data/ground_truths/name_value/00012/00012.txt
+	data/ground_truths/xml/00012/00012.xml
+
+There is also a single XML file containing that information
+for all 994 subjects:
+	data/ground_truths/xml/subjects.xml
+
+
+b. Recordings
+
+There are plain text and XML-format file for each image
+containing capture date, pose name, whether the subject was
+wearing glasses or not, whether the subject has a beard or
+mustache, and other information, e.g.:
+	data/ground_truths/name_value/00012/00012_930831_fb_a.txt
+	data/ground_truths/xml/00012/00012_930831_fb_a.xml
+
+There is also a single XML file containing that information
+for all 11338 images:
+	data/ground_truths/xml/recordings.xml
+
+For approximately 90% of the Gray FERET frontal images, the
+recording ground truth data contains the coordinates of the
+subject's mouth, nose and eyes.  The data has been carried
+forward to the color versions of those images. (It's not
+known why the remaining frontals were not truthed to have
+those coordinates.)
+
+
+7. Standard Testing Subsets
+
+The directory 'doc/partitions' contains lists of frontal images that
+constitute a gallery and three probe sets for the Color FERET Database:
+	doc/partitions/fa.txt
+	doc/partitions/fb.txt
+	doc/partitions/dup1.txt
+	doc/partitions/dup2.txt
+
+They are the recommended sets for testing facial recognition performance
+on the Color FERET Database. For each image in one of the probe sets,
+the recognition task is to find the subject's image in the gallery.
+
+The gallery and probe sets are analogous to those used in the Gray
+FERET tests of September 1996 and described in:
+	http://www.nist.gov/humanid/feret/feret_master.html
+However, since the Color and Gray FERET Databases' galleries and probe
+sets are considerably different (as detailed below), there can be no
+direct comparison between a system's recognition performance on the
+Color FERET sets and others' on the Gray FERET sets. Some of the published
+Gray FERET results are at:
+	http://www.itl.nist.gov/iad/humanid/feret/perf/eval.html
+	http://www.dodcounterdrug.com/facialrecognition/Feret/documents.htm
+
+The Color FERET gallery consists the earliest 'fa' frontal image of
+each subject. (If more than one image was captured on the earliest
+date, the one with the subject not wearing glasses was selected.)
+The gallery size is 994 images.
+
+The 'fb' probe set is for analyzing the effect of a different facial
+expression on recognition performance. It consists of the alternate
+frontal ('fb') images taken just seconds after the gallery image.
+The 'fb' probe set size is 992 images. (The subjects 00535 and 00989
+did not have 'fb' images.)
+
+There are two probe sets for analyzing the effect of aging on the
+recognition performance. The first, 'dup1', consists of all other
+frontals of the subjects. Most were captured at later sessions,
+although some are images of the subjects at the earliest session
+but with glasses and/or an alternate hairstyle. The 'dup1' probe
+set size is 736 images.
+
+The 'dup2' probe set is a subset of the 'dup1' probe set consisting
+of all frontals captured at least 540 days after the subject's gallery
+image. The 'dup2' probe set size is 228 images.
+
+There are several differences between the Color FERET and Grey FERET
+galleries and probe sets:
+	1. The 194 subjects in the b-series that were in Gray FERET
+		sets are not present in Color FERET. Therefore the
+		Color FERET gallery and 'fb' probe sets each have
+		approximately 200 fewer images than their Gray FERET
+		counterparts.
+	2. The Gray FERET images that were derived from other images
+		are replaced in Color FERET with the untouched
+		originals.
+	3. Gray FERET contained some subjects erroneously under two ID's
+		(see "doc/fates.out"). Those subjects each have a single
+		ID in Color FERET.
+	4. The Color FERET gallery contains images of all subjects in
+		the Color FERET Database. A few individuals in Gray
+		FERET were not represented in the Gray FERET gallery.
+
+There are also 11 other files for each of the non-frontal poses:
+	doc/partitions/{[phq][lr],r[abcde]}.txt
+They can be used as probe sets for analyzing facial recognition
+performance when the subject is facing away from the camera to
+various degrees.
+
+The files 'fa.txt' and 'fb.txt' contain contain two columns: the first
+is the subject ID and the second is the image basename. All of the
+other files contain five columns. The first two columns are the same
+as in 'fa.txt' and 'fb.txt'. The third is the capture date of the image,
+the fourth is the capture date of that subject's gallery image, and the
+fifth is the number of days between those dates.
+
+
+8. Montages
+
+The second DVD contains variety of montages. A subject
+montage is an image that contains thumbnail images of all
+images of the given subject. A pose montage contains all the
+images in the database where the subject has a given pose.
+Because these montages were so large, they've been divided
+into several smaller montages, each with subjects of one
+sex and race. Miscellaneous montages contain all images in
+the database where the subject has or doesn't have glasses,
+a beard, or a mustache. These montages are also divided by
+sex and race.
+
+For each of subject montage, e.g.:
+	data/montages/id/00033.ppm.bz2
+all images from the first capture date are on the top row.
+The poses for each capture date are arranged on that row
+left-to-right in the following order:
+
+	column	pose
+	======	====
+	1	profile-left
+	2	half-left
+	3	quarter-left
+	4	fa
+	5	fb
+	6	quarter-right
+	7	half-right
+	8	profile-right
+	9	ra
+	10	rb
+	11	rc
+	12	rd
+	13	re
+
+When there is no image for a certain pose on a given date, the
+position in the montage is blank.
+
+Images of the subject from the next capture date would be on
+the next row. Images from the same capture date but which are
+alternates (i.e. the subject was also photographed with glasses
+or, in a few cases, with an alternate hairstyle) are also on
+a separate row from the regular images.
+
+For each pose, as well as for frontal images, there are montages
+with names such as:
+	data/montages/pose/pr/M_Asian.ppm.bz2
+	data/montages/pose/frontals/F_White.ppm.bz2
+
+Similarly, for glasses, there are montages with names such as:
+	data/montages/misc/no_glasses_F_Black-or-African-American.ppm.bz2
+	data/montages/misc/glasses_F_Black-or-African-American.ppm.bz2
+And for beards and mustaches, there are montages of the males
+of all races, both with and without them:
+	data/montages/misc/beard_M_Pacific-Islander.ppm.bz2
+	data/montages/misc/mustache_M_Pacific-Islander.ppm.bz2
+	data/montages/misc/no_beard_M_Pacific-Islander.ppm.bz2
+	data/montages/misc/no_mustache_M_Pacific-Islander.ppm.bz2
+
+Empty montages were not be produced for combinations where
+there were no representative images.
+
+The file:
+	data/montages/partitions/partitions.ppm.bz2
+is a montage of the Color FERET Database's standard testing subsets. Each
+subject starts a new row. The first and second columns of each row are
+the subject's 'fa' and 'fb' images. The rest of the row are 'dup1' images.
+If the subject has any 'dup1' images that are also 'dup2' images, they're
+separated from normal 'dup1' images by a black divider image. For the few
+subjects with more than 9 images, the rest are wrapped onto the
+next line(s).
+
+
+9. Additional Database Notes
+
+Three of the PhotoCD's contained grayscale images. Those 210 images
+are listed in the file doc/grayscale.out.
+
+Dozens of subjects were photographed in one session both with and
+without glasses. Three female subjects -- 00537, 00547 and 00556 --
+were also photographed in the '940519' session with a different
+hairstyle and without glasses. The latter two were additionally
+photographed again with the different hairstyle and with glasses.
+The filenames for the alternate images contain the optional 'b'
+and 'c' flags as described previously.
+
+
+10. Additional Files
+
+doc/documentation.txt
+	This file.
+
+doc/files.out
+	A file containing 11338 image basenames, starting with
+	00001_930831_fa_a.ppm, ending with 01208_940128_pr_a.ppm.
+
+doc/aging.out
+	A file with a 5-column line for each of the 11338 images, e.g.:
+		00002 00002_931230_fa.ppm 931230 930831 121
+	which can be used to quickly determine the number of days
+	each image was captured after the subject's first image
+	was captured. Column one is the subject ID, column two is
+	the image basename, column three is the image's capture date,
+	column four is the capture date for the subject's earliest
+	image, and column five is the number of days between those
+	dates.
+
+doc/fates.out
+	Specifies what happened to each image in the old Gray
+	FERET Database. There are three main categories: 1) not
+	present (derived images, or "b-series" images that came
+	from PhotoCD's that were not located); 2) present, with
+	no problems, so the new filename is straightforward; and
+	3) present, with some problem fixed, so the new filename
+	reflects the fix. The following are examples of many of the
+	varieties of 'fate' lines:
+
+#105   feret/cd1/data/pgm/00011fa010_930831.pgm  : correct subject ID is 00012, wearing glasses; now named 00012_930831_fa_a.ppm
+#106   feret/cd1/data/pgm/00011fb010_930831.pgm  : correct subject ID is 00012, wearing glasses; now named 00012_930831_fb_a.ppm
+#107   feret/cd1/data/pgm/00012fa010_930831.pgm  : still present as 00012_930831_fa.ppm
+#108   feret/cd1/data/pgm/00012fb010_930831.pgm  : still present as 00012_930831_fb.ppm
+...
+#110   feret/cd1/data/pgm/00013fa001d_931230.pgm : derived images in original FERET Database were not re-derived
+...
+#131   feret/cd1/data/pgm/00019ba010_960521.pgm  : b-series PhotoCD's of 05-21-96 were not located
+...
+#779   feret/cd1/data/pgm/00086fa010_930422.pgm  : thrown out; incorrectly-named duplicate of feret/cd1/data/pgm/00086fa010_940422.pgm; wrong date
+#781   feret/cd1/data/pgm/00086fa010_940422.pgm  : correctly-named duplicate of thrown-out feret/cd1/data/pgm/00086fa010_930422.pgm
+...
+#2107  feret/cd1/data/pgm/00247pr010_941121.pgm  : incorrectly-named duplicate of feret/cd1/data/pgm/00247re010_941121.pgm; correct image located on PhotoCD's
+#2112  feret/cd1/data/pgm/00247re010_941121.pgm  : correctly-named duplicate of renamed feret/cd1/data/pgm/00247pr010_941121.pgm
+...
+#2055  feret/cd1/data/pgm/00240fa010_940128.pgm  : correct subject ID is 00256
+...
+#4961  feret/cd1/data/pgm/00535fb010_940519.pgm  : formerly designated as the 'fb' but there was no 'fa'
+...
+#9324  feret/cd2/data/pgm/00780qr010_950530.pgm  : correct date is 960530
+
+doc/gray_to_color_feret.map
+	A two-column file that maps the Color FERET images back to their
+	grayscale counterparts, basically a machine-readable version of
+	the above file, excluding the "not present" category:
+		...
+		feret/cd1/data/pgm/00012fa010_930831.pgm 00012_930831_fa.ppm
+		feret/cd1/data/pgm/00012fb010_930831.pgm 00012_930831_fb.ppm
+		feret/cd1/data/pgm/00011fa010_930831.pgm 00012_930831_fa_a.ppm
+		feret/cd1/data/pgm/00011fb010_930831.pgm 00012_930831_fb_a.ppm
+
+doc/subject_counts.out
+	Contains the counts of images and frontal images for
+	each subject ID.
+		Column 1 is the subject ID
+		Column 2 is the image count
+		Column 3 is the frontal image count
+
+doc/breakdown.out
+	Contains the image counts, frontal image counts, 'fa' image counts, and
+	subject counts for these subsets of the data:
+		1. females of each of the races represented
+		2. males of each of the races
+		3. each of the races
+		4. females
+		5. males
+		6. the entire Color FERET Database
+
+doc/capture_dates.out
+	Contains a 3-column table. The image capture dates are in the first
+	column. The second and third columns contain the number of days between
+	the row's capture date and, respectively, the first and the previous
+	capture dates.
+
+doc/grayscale.out
+	Lists the 210 images that were originally
+	captured on black-and-white (actually grayscale) film. The red,
+	green and blue components for each pixel are identical.
+
+binaries/bunzip2-102-x86-linux24
+binaries/bunzip2-100-sparc-solaris7
+binaries/bunzip2-100-x86-cygwinb20.exe
+binaries/bunzip2-100-x86-win32.exe
+binaries/bunzip2-102-x86-win32.exe
+	The program to decompress the image files, "bunzip2," is provided
+	for several platforms
+binaries/readme.txt
+	Installation information for "bunzip2" for those platforms
+
+source/bzip2-1.0.2.tar
+	Source code for the "bzip2" package, which includes the "bunzip2"
+	program
+
+gray_feret_cd1/
+gray_feret_cd2/
+	[on DVD #2 only]
+	Contain the entire contents of the Gray FERET CD's released in 2001.
+	The CD's have been copied verbatim. Supplemental information and
+	errata can be found on the FERET website:
+		http://www.nist.gov/humanid/feret/
+
+gray_feret_partitions.pgm.bz2
+	[on DVD #2 only]
+	A montage of the standard testing subsets for the Gray FERET Database.
+	The layout is the same as that of the montage of the Color FERET
+	Database's standard testing subsets.
+
+
+11. For More Information
+
+The Color FERET Database's main webpage is:
+	http://www.nist.gov/humanid/colorferet
+and any supplements will be available there.
+
+Any errata will be documented at:
+	http://www.nist.gov/humanid/colorferet/errata.html
+
+Please direct comments, questions and bug reports to:
+	colorferet@nist.gov
+
+
+12. Other URL's of Interest
+
+http://www.nist.gov/humanid/feret/feret_master.html
+	Gray FERET Database documentation
+
+http://www.dodcounterdrug.com/facialrecognition/Feret/feret.htm
+	Department of Defense's Counterdrug Technology Development Program FERET page;
+	the FERET program ran from 1993 through 1997 and was sponsored by the Defense
+	Advanced Research Products Agency (DARPA).
+
+http://www.dodcounterdrug.com/facialrecognition/Feret/documents.htm
+	Gray FERET papers
+
+http://www.frvt.org/FRVT2000/default.htm
+http://www.frvt.org/FRVT2002/default.htm
+	The first and second Facial Recognition Vendor Tests, evaluations
+	of commercial face recognition systems
+
+http://www.frvt.org/DLs/FR101.pdf
+	"Facial Recognition 101"
