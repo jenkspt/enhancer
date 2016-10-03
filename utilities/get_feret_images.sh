@@ -24,11 +24,11 @@ for dvd in "dvd1/" "dvd2/"; do
 		# In each image folder go into each user folder
 		for user in $( ls $size_dir ); do
 			cd $user
-			echo "Decompressing and copying contents of "$( pwd )
+			echo "Decompressing and moving contents of "$( pwd )
 			bzip2 -dkfq *
 			# In each user folder copy the decompressed file to the destination
 			for img in $( ls *.ppm ); do
-				cp -f $src$img $dest
+				mv -f $src$img $dest
 			done
 
 			cd ../
