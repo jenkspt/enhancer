@@ -3,3 +3,5 @@ tmp*/
 *.pkl
 checkpoint/*
 .DS_Store
+*.out
+data/
