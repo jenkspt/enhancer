@@ -47,4 +47,4 @@ model.fit_generator(train_generator,
                 samples_per_epoch=samples_per_epoch,
                 validation_data=test_generator,
                 nb_val_samples=nb_val_samples,
-                callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
+                callbacks=[TensorBoard(log_dir='tensorboard')])
