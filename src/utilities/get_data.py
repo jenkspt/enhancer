@@ -31,6 +31,25 @@ class DataUtil():
 		self.colorferet_tar = path.join(self.config['local'], self.colorferet + '.tar')
 		self.feret = path.join(self.config['local'], 'feret')
 
+	def s3_download(self):
+		'''
+		Downloads the file from the s3 bucket specified in the config.json file.
+		Doesn't download if the file already exists in specified local path
+		'''
+
+		# Cancel the download if directory or tar file or exists with the value of self.colorferet
+		if os.path.isdir(self.colorferet_dir):
+			print('(Cancelling download) The directory "{}" already exists.'.format(self.colorferet))
+			return True
+		elif tarfile.is_tarfile(self.colorferet_tar):
+			print('(Cancelling download) The file "{}.tar" already exists.'.format(self.colorferet))
+			return True
+		
+		# Download the s3 bucket
+		s3 = boto3.resource('s3')
+		s3.meta.client.download_file(self.config['bucket'], self.config['key'], self.colorferet_dir)
+		return True
+
 	def make_dataset(self, split=.075, exclude_views={'pl', 'pr'}):
 		'''
 		args: 
@@ -74,7 +93,7 @@ class DataUtil():
 
 def extract_images(image_paths, other_args):
 	colorferet_tar, train_dir, test_dir, split = other_args
-
+	# Seed so test set always has same files
 	random.seed(42)
 	with tarfile.open(colorferet_tar, 'r:') as tarball:
 		for image_path in image_paths:
