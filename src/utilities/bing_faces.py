@@ -8,24 +8,25 @@ import os
 from time import sleep
 
 """
-(Image Search Api Reference)[https://msdn.microsoft.com/en-us/library/dn760791.aspx]
+Microsoft Image Search API reference:
+https://msdn.microsoft.com/en-us/library/dn760791.aspx
+
+Website with list of names:
+http://names.mongabay.com/male_names.htm
 """
 
 
 class BingFaces():
 
-	def __init__(self, key_file='api_keys.json', male_names_tsv='male_names.tsv', female_names_tsv='female_names.tsv'):
+	def __init__(self, key_file='api_keys.json'):
+		'''
+		args:
+		key_file (str): path to json file {"bing": "<api key>"}
 
+		initialize a session for pooled requests
+		'''
 		with open(key_file) as f:
 			api_key = json.load(f)['bing']
-
-		male = list(read_csv(male_names_tsv, sep='\t', index_col='Rank')['Name'])
-		female = list(read_csv(female_names_tsv, sep='\t', index_col='Rank')['Name'])
-
-		# List of 2000 names, alternating male-female.
-		# Capitalize first letter in name and lowercase the rest
-		self.names = [item.title() for sublist in zip(male, female)
-		                         for item in sublist]
 
 		self.api_url = 'https://api.cognitive.microsoft.com/bing/v5.0/images/search'
 
@@ -36,6 +37,14 @@ class BingFaces():
 
 
 	def get_name(self, name, offset=0):
+		'''
+		A list of links to 400x400 faces is retreived by searching bing for common
+		names.
+
+		args:
+		name (str): the name to be used in the bing search i.e. 'Robert'
+		offset (int): for pagination. Not used in this implimentation
+		'''
 		payload = {
 			'q': name,
 			'offset': offset,
@@ -62,15 +71,15 @@ class BingFaces():
 			f.write('\n'.join(links))
 
 
-
-
 	def get_names(self):
+		'''
+		Loop through names and retrieve links.
+		'''
 		while self.names:
 			try:
 				self.get_name(self.names.pop(0))
 			except Exception as e:
 				print(e)
-				break
 			# Api limits 5 requests per second
 			sleep(.21)
 		with open('remaining_names.txt', 'w') as f:
@@ -78,8 +87,23 @@ class BingFaces():
 
 
 if __name__ == '__main__':
-	bing = BingFaces()
-	bing.names = list(set([line.rstrip('\n') for line in open('remaining_names.txt')]))
+	names = []
+	if os.path.isfile('remaining_names.txt'):
+		# If the program exits prematurely for any reason, pick up where we left off
+		names = [line.rstrip('\n') for line in open('remaining_names.txt')]
+
+	else:
+		# start with a list of names
+		male = list(read_csv('male_names_2.tsv', sep='\t')['Name'])
+		female = list(read_csv('female_names_2.tsv', sep='\t')['Name'])
+
+		# List of 2000 names, alternating male-female.
+		# Capitalize first letter in name and lowercase the rest
+		names = list(set([item.title() for sublist in zip(male, female) for item in sublist]))
+		bing = BingFaces()
+
+
+	bing.names = names
 	bing.get_names()
 	
 
