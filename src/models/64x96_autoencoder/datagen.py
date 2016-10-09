@@ -6,6 +6,22 @@ from PIL import Image
 import random
 
 
+# original image dimensions (512x768)
+def crop_center(im):
+	width, height = im.size   # Get dimensions
+	left = (width - new_width)/2
+	top = (height - new_height)/2
+	right = (width + new_width)/2
+	bottom = (height + new_height)/2
+
+	im.crop((left, top, right, bottom))
+
+"""
+768-512 = 256
+
+"""
+
+
 PATTERN = re.compile('.+\.png')
 
 # def datagen(path, target_size=(64, 96), batch_size=32):
@@ -22,7 +38,7 @@ PATTERN = re.compile('.+\.png')
 # 				if random.randint(0,1):
 # 					img = img.transpose(Image.FLIP_LEFT_RIGHT)
 # 				# PIL images are (width, height) and numpy arrays are (height, width)
-# 				ar = (np.asarray(img)/255).reshape(target_size[1], target_size[0], 1)
+# 				ar = (np.asarray(img, dtype=np.float32)/255).reshape(target_size[1], target_size[0], 1)
 # 				yield (ar, ar)
 
 # 		if i <= 0:
@@ -47,7 +63,7 @@ def datagen(path, target_size=(64, 96), batch_size=32):
 				if random.randint(0,1):
 					img = img.transpose(Image.FLIP_LEFT_RIGHT)
 				# PIL images are (width, height) and numpy arrays are (height, width)
-				target[j] = np.asarray(img).reshape(target_size[1], target_size[0], 1)
+				target[j] = (np.asarray(img)/255).reshape(target_size[1], target_size[0], 1)
 			yield (target, target)
 
 		if i <= 0:
@@ -56,5 +72,5 @@ def datagen(path, target_size=(64, 96), batch_size=32):
 			random.shuffle(files)
 
 if __name__ == '__main__':
-	gen = datagen('/Users/penn/galvanize/enhancer/data/feret/test/faces')
+	gen = datagen('/home/ubuntu/enhancer/data/feret/test')
 	x = next(gen)
