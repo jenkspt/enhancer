@@ -4,16 +4,16 @@ from PIL import Image
 from datagen import datagen
 
 target_size=(100, 100)
-source_rescale=(50, 50)
-batch_size=32
+source_rescale=(25, 25)
+batch_size=4
 
 path = '/home/ubuntu/enhancer/data/bing/test'
 # path = '../../../data/test'
-test_generator = datagen(path, source_rescale, target_size, batch_size)
+test_generator = datagen(path, source_rescale, target_size, batch_size, shuffle=False)
 
 X, y = next(test_generator)
 
-model = load_model('saved_models/model_1.h5')
+model = load_model('saved_models/model')
 
 predicted = model.predict(X, batch_size=batch_size)
 
