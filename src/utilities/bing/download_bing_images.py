@@ -15,6 +15,7 @@ def download_bing_images(data_dir='../../data/bing'):
 	pool = ThreadPool(150)
 	files = glob(os.path.join(data_dir, '*', '*.txt'))
 	for filename in files:
+		print('Mapping links from {}'.format(filename))
 		dest_path = os.path.dirname(filename)
 		links = [line.rstrip('\n') for line in open(filename)]
 		pool.starmap(save_image, zip(links, [dest_path]*len(links)))
@@ -29,7 +30,7 @@ def save_image(url, dest_path):
 	Download and save an individual image
 	'''
 	try:
-		im = Image.open(BytesIO(requests.get(url).content))
+		im = Image.open(BytesIO(requests.get(url, timeout=1).content))
 
 		name = os.path.basename(dest_path)
 		original_name = os.path.splitext(os.path.basename(url))[0]
@@ -42,4 +43,4 @@ def save_image(url, dest_path):
 
 
 if __name__ == '__main__':
-	download_bing_images(data_dir='test')
+	download_bing_images()
