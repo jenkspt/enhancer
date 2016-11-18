@@ -1,7 +1,7 @@
 
-
 Reversing Image Redaction with Deep Learning
 ============================================
+
 ### [Penn Jenks](https://www.linkedin.com/in/pennjenks)
 
 * [Inspiration](#the-inspiration)  
@@ -11,8 +11,6 @@ Reversing Image Redaction with Deep Learning
 * [Analysis](#analysis)
 * [Sources](#sources)
 * [Code](https://github.com/jenkspt/enhancer/tree/master/src/models/enhancer)
-
-
 
 ![Grid of redacted faces](https://raw.githubusercontent.com/jenkspt/enhancer/master/data/slides/redacted_grid.jpg "Redacted Images")
 
@@ -36,7 +34,7 @@ Here are the relevent exerpts:
 > and then further trained their neural networks to interpret blurred and pixelated images based on 
 > knowledge of the originals"
 
-Here is the part that I found especially interesting:  
+*Here is the part that I found especially interesting:*  
 
 > "... the research isn’t doing image reconstruction from scratch, and can’t reverse 
 > the obfuscation to actually recreate pictures of the faces or objects it’s identifying.
@@ -103,7 +101,7 @@ Keep in mind that the model has not seen any of these test images.
 ## Analysis
 I ended up using **mean absolute error** for the loss function. I tried using mean squared error, but the pixel values would revert
 toward the mean, resulting in a gray, washed-out image. I also tried a more sophisticated manipulation of the loss function by weighting 
-pixel errors by their Laplace gradient. I eventually realized that the laplace gradient is much the same as the convolutional operation in
+pixel errors by their Laplace gradient. I eventually realized that the Laplace gradient is much the same as the convolutional operation in
 my network, and so I'm not sure where I was going with that one ...
 
 ![predictions Obama](https://raw.githubusercontent.com/jenkspt/enhancer/master/data/slides/prediction_obama_1.jpg "President Barack Obama")
@@ -135,7 +133,7 @@ is even possible. If you have made it this far, I suggest you read the following
 
 * [*Colorful Image Colorization*][COLORIZER PAPER]
 * [Image Compression with Neural Networks](GOOGLE JPEG BLOG)
-	* [Reasearch Paper](GOOGLE JPEG PAPER)
+	* [Full Resolution Image Compression with Recurrent Neural Networks](GOOGLE JPEG PAPER)
 
 
 ## Sources
@@ -143,7 +141,7 @@ is even possible. If you have made it this far, I suggest you read the following
 	* [*Defeating Image Obfuscation with Deep Learning*][REDACTION PAPER]
 * [*Colorful Image Colorization*][COLORIZER PAPER]
 * [Image Compression with Neural Networks](GOOGLE JPEG BLOG)
-	* [Reasearch Paper](GOOGLE JPEG PAPER)
+	* [Full Resolution Image Compression with Recurrent Neural Networks](GOOGLE JPEG PAPER)
 
 [WIRED]: https://www.wired.com/2016/09/machine-learning-can-identify-pixelated-faces-researchers-show
 [REDACTION PAPER]: https://www.cs.cornell.edu/~shmat/shmat_imgobfuscation.pdf
